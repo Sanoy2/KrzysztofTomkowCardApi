@@ -7,6 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{BE4AB9B7-236
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebService", "src\WebService\WebService.csproj", "{35275342-67BA-490D-B39A-4382D511AE80}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileAccess", "src\FileAccess\FileAccess.csproj", "{83B2A693-B5AD-48C1-922C-1B85E8FE9E2E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,8 +34,21 @@ Global
 		{35275342-67BA-490D-B39A-4382D511AE80}.Release|x64.Build.0 = Release|Any CPU
 		{35275342-67BA-490D-B39A-4382D511AE80}.Release|x86.ActiveCfg = Release|Any CPU
 		{35275342-67BA-490D-B39A-4382D511AE80}.Release|x86.Build.0 = Release|Any CPU
+		{83B2A693-B5AD-48C1-922C-1B85E8FE9E2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83B2A693-B5AD-48C1-922C-1B85E8FE9E2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83B2A693-B5AD-48C1-922C-1B85E8FE9E2E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{83B2A693-B5AD-48C1-922C-1B85E8FE9E2E}.Debug|x64.Build.0 = Debug|Any CPU
+		{83B2A693-B5AD-48C1-922C-1B85E8FE9E2E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{83B2A693-B5AD-48C1-922C-1B85E8FE9E2E}.Debug|x86.Build.0 = Debug|Any CPU
+		{83B2A693-B5AD-48C1-922C-1B85E8FE9E2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83B2A693-B5AD-48C1-922C-1B85E8FE9E2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83B2A693-B5AD-48C1-922C-1B85E8FE9E2E}.Release|x64.ActiveCfg = Release|Any CPU
+		{83B2A693-B5AD-48C1-922C-1B85E8FE9E2E}.Release|x64.Build.0 = Release|Any CPU
+		{83B2A693-B5AD-48C1-922C-1B85E8FE9E2E}.Release|x86.ActiveCfg = Release|Any CPU
+		{83B2A693-B5AD-48C1-922C-1B85E8FE9E2E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{35275342-67BA-490D-B39A-4382D511AE80} = {BE4AB9B7-236F-4887-A1C6-C8D32F8B0E94}
+		{83B2A693-B5AD-48C1-922C-1B85E8FE9E2E} = {BE4AB9B7-236F-4887-A1C6-C8D32F8B0E94}
 	EndGlobalSection
 EndGlobal
