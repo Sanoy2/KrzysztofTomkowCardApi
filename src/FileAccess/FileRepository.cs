@@ -5,7 +5,7 @@ namespace FileAccess
 {
     public class FileRepository : IFileRepository
     {
-        private IPathProvider pathProvider;
+        private readonly IPathProvider pathProvider;
 
         public FileRepository(IPathProvider pathProvider)
         {
