@@ -5,12 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Castle.Windsor" Version="5.0.1" />
-    <PackageReference Include="Castle.Windsor.MsDependencyInjection" Version="3.3.1" />
+    <ProjectReference Include="..\FileAccess\FileAccess.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FileAccess\FileAccess.csproj" />
+    <Folder Include="IoC\" />
   </ItemGroup>
 
 
