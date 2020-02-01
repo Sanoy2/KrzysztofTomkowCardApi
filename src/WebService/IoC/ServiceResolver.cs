@@ -13,6 +13,7 @@ namespace WebService.IoC
         public ServiceResolver(IServiceCollection services)
         {
             container = new WindsorContainer();
+            container.Install(new FileAccessInstaller());
             serviceProvider = WindsorRegistrationHelper.CreateServiceProvider(container, services);
         }
 
