@@ -50,6 +50,8 @@ namespace WebService
             {
                 endpoints.MapControllers();
             });
+
+            env.WebRootPath = "D://tmp";
         }
     }
 }
