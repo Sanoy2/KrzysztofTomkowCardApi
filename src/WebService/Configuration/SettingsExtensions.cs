@@ -8,7 +8,7 @@ namespace WebService.Configuration
 {
     public static class SettingsExtensions
     {
-        public static T GetSettings<T>(this IConfiguration configuration) where T : new()
+        public static T GetSettings<T>(this IConfiguration configuration) where T : ISettings, new()
         {
             var section = typeof(T).Name.Replace("Settings", string.Empty);
             var configurationValue = new T();
