@@ -18,8 +18,8 @@ namespace WebService.FileAccess
 
         public string GetFilePath(string filename)
         {
-            string path = $"{filename}.pdf";
-            return env.WebRootFileProvider.GetFileInfo(path)?.PhysicalPath;
+            string file = $"{filename}";
+            return env.WebRootFileProvider.GetFileInfo(file)?.PhysicalPath;
         }
     }
 }

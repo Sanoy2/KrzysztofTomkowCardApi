@@ -6,14 +6,12 @@ using FileAccess;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using WebService.Configuration;
 using WebService.FileAccess;
-using WebService.Configuration;
 
 namespace WebService
 {
@@ -47,6 +45,8 @@ namespace WebService
 
             //app.UseHttpsRedirection();
 
+            app.UseStaticFiles();
+
             app.UseRouting();
 
             app.UseAuthorization();
@@ -56,7 +56,7 @@ namespace WebService
                 endpoints.MapControllers();
             });
 
-            env.WebRootPath = generalSettings.FileStorageMainDirectory;
+            //env.WebRootPath = generalSettings.FileStorageMainDirectory;
         }
     }
 }
