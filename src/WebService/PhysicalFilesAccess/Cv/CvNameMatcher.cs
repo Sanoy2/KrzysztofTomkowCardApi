@@ -9,7 +9,12 @@ namespace WebService.PhysicalFilesAccess.Cv
     {
         public bool IsMatch(string nameTemplate, string name)
         {
-            throw new NotImplementedException();
+            nameTemplate = nameTemplate.Trim();
+            name = name.Trim();
+
+            bool result = name.Contains(nameTemplate);
+
+            return result;
         }
     }
 }
