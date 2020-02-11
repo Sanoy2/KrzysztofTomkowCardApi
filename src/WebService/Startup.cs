@@ -8,10 +8,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using WebService.Configuration;
-using WebService.FileAccess;
+using WebService.PhysicalFilesAccess;
+using WebService.PhysicalFilesAccess.Cv;
+
 
 namespace WebService
 {
@@ -28,15 +31,18 @@ namespace WebService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddTransient<IPathProvider, FilePathProvider>();
+            services.AddTransient<IFilesInfoProvider, FilesInfoProvider>();
             services.AddTransient<IFileRepository, FileRepository>();
+            services.AddTransient<ICvPathProvider, CvPathProvider>();
 
             var generalSettings = this.Configuration.GetSettings<GeneralSettings>();
             services.AddSingleton<GeneralSettings>(generalSettings);
+
+            services.AddTransient<IFileProvider>(n => new PhysicalFileProvider(generalSettings.FileStorageMainDirectory));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, GeneralSettings generalSettings)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -55,8 +61,6 @@ namespace WebService
             {
                 endpoints.MapControllers();
             });
-
-            //env.WebRootPath = generalSettings.FileStorageMainDirectory;
         }
     }
 }

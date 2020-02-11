@@ -4,7 +4,7 @@ namespace FileAccess
 {
     public interface IFileRepository
     {
-        byte[] GetFileAsBytes(string filename);
-        Task<byte[]> GetFileAsBytesAsync(string filename);
+        byte[] GetFileAsBytes(string physicalPath);
+        Task<byte[]> GetFileAsBytesAsync(string physicalPath);
     }
 }
