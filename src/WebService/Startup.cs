@@ -33,7 +33,7 @@ namespace WebService
             services.AddControllers();
             services.AddTransient<IFilesInfoProvider, FilesInfoProvider>();
             services.AddTransient<IFileRepository, FileRepository>();
-            services.AddTransient<ICvPathProvider, CvPathProvider>();
+            services.AddTransient<ICvFileInfoProvider, CvFileInfoProvider>();
 
             var generalSettings = this.Configuration.GetSettings<GeneralSettings>();
             services.AddSingleton<GeneralSettings>(generalSettings);

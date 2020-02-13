@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace WebService.PhysicalFilesAccess.Cv
 {
-    public interface ICvPathProvider
+    public interface ICvFileInfoProvider
     {
-        string GetPhysicalPath();
+        IFile GetPhysicalPath();
     }
 }

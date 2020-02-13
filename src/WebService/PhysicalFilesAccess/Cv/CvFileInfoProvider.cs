@@ -7,23 +7,22 @@ using System.Threading.Tasks;
 
 namespace WebService.PhysicalFilesAccess.Cv
 {
-    public class CvPathProvider : ICvPathProvider
+    public class CvFileInfoProvider : ICvFileInfoProvider
     {
         private const string CvName = "CV";
         private readonly IFilesInfoProvider filesInfoProvider;
 
-        public CvPathProvider(IFilesInfoProvider filesInfoProvider)
+        public CvFileInfoProvider(IFilesInfoProvider filesInfoProvider)
         {
             this.filesInfoProvider = filesInfoProvider ?? throw new ArgumentNullException(nameof(filesInfoProvider));
         }
         
-        public string GetPhysicalPath()
+        public IFile GetPhysicalPath()
         {
             return this.filesInfoProvider.GetFiles()
                 .MatchCvName(CvName)
                 .OrderByDescending(n => n.LastModification)
-                .First()
-                .PhysicalPath;
+                .First();
         }
     }
 }

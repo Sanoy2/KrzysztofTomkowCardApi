@@ -1,23 +1,35 @@
 ﻿using FileAccess;
 using Microsoft.AspNetCore.Mvc;
+using System.IO;
+using System.Threading.Tasks;
 using WebService.PhysicalFilesAccess;
 using WebService.PhysicalFilesAccess.Cv;
 
 namespace WebService.Controllers
 {
-    public class CvController : AbstractController
+    [ApiController]
+    [Route("[controller]")]
+    public class CvController : ControllerBase
     {
-        private readonly ICvPathProvider cvPathProvider;
+        private readonly ICvFileInfoProvider cvPathProvider;
 
-        public CvController(ICvPathProvider cvPathProvider)
+        public CvController(ICvFileInfoProvider cvPathProvider)
         {
             this.cvPathProvider = cvPathProvider ?? throw new System.ArgumentNullException(nameof(cvPathProvider));
         }
 
-        public override IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            string path = this.cvPathProvider.GetPhysicalPath();
-            return Ok($"path: {path}");
+            IFile cvFileInfo = this.cvPathProvider.GetPhysicalPath();
+
+            var memory = new MemoryStream();
+            using (var stream = new FileStream(cvFileInfo.PhysicalPath, FileMode.Open))
+            {
+                await stream.CopyToAsync(memory);
+            }
+
+            memory.Position = 0;
+            return File(memory, "application/pdf", cvFileInfo.Name);
         }
     }
 }
