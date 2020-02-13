@@ -164,6 +164,91 @@ namespace FileAccess.Unit.Tests
             act.Should().ThrowExactly<FileIncoherentPathException>();
         }
 
+        [Fact]
+        public void Extension_WhenFileIsPdf_Should_ReturnPdf()
+        {
+            string filename = "fancyFilename";
+            string correctPath = "/usr/share/images/fancyFilename.pdf";
+            string expectedExtension = ".pdf";
+
+            IFile file = new File(filename, this.correctLastModificationTime, correctPath);
+            string obtainedExtension = file.Extension;
+
+            obtainedExtension.Should().Be(expectedExtension);
+        }
+
+        [Fact]
+        public void Extension_WhenFileIsPdfUppercaseExtension_Should_ReturnPdfLowercase()
+        {
+            string filename = "fancyFilename";
+            string correctPath = "/usr/share/images/fancyFilename.PDF";
+            string expectedExtension = ".pdf";
+
+            IFile file = new File(filename, this.correctLastModificationTime, correctPath);
+            string obtainedExtension = file.Extension;
+
+            obtainedExtension.Should().Be(expectedExtension);
+        }
+
+        [Fact]
+        public void Extension_WhenFileIsJpg_Should_ReturnJpg()
+        {
+            string filename = "fancyPicture";
+            string correctPath = "/usr/share/images/fancyPicture.jpg";
+            string expectedExtension = ".jpg";
+
+            IFile file = new File(filename, this.correctLastModificationTime, correctPath);
+            string obtainedExtension = file.Extension;
+
+            obtainedExtension.Should().Be(expectedExtension);
+        }
+
+        [Fact]
+        public void Extension_WhenFileIsJsonWithDotInside_Should_ReturnJson()
+        {
+            string filename = "application.Development";
+            string correctPath = "/usr/share/images/application.Development.json";
+            string expectedExtension = ".json";
+
+            IFile file = new File(filename, this.correctLastModificationTime, correctPath);
+            string obtainedExtension = file.Extension;
+
+            obtainedExtension.Should().Be(expectedExtension);
+        }
+
+        [Fact]
+        public void Extension_WhenFileHasNoExtension_Should_ReturnEmptyString()
+        {
+            string filename = "fileWithNoExtension";
+            string correctPath = "/usr/share/images/fileWithNoExtension";
+            string expectedExtension = string.Empty;
+
+            IFile file = new File(filename, this.correctLastModificationTime, correctPath);
+            string obtainedExtension = file.Extension;
+
+            obtainedExtension.Should().Be(expectedExtension);
+        }
+
+        [Theory]
+        [InlineData(@"/home/usr/")]
+        [InlineData(@"~/usr/")]
+        [InlineData(@"home/usr/")]
+        [InlineData(@"home/dotnet/ASP/develop/tests/integration/images/")]
+        [InlineData(@"C:/dotnet/files")]
+        [InlineData(@"D:/Program Files/ASP/")]
+        [InlineData(@"D:/Program Files/ASP/develop/tests/integration/images/")]
+        public void Extension_WhenLinuxOrWindowsUsedToStorePdf_Should_ReturnPdf(string physicalFilePathWithNoExtension)
+        {
+            string filename = "filename";
+            string expectedExtension = ".pdf";
+            string correctPath = $"{physicalFilePathWithNoExtension}{filename}{expectedExtension}";
+
+            IFile file = new File(filename, this.correctLastModificationTime, correctPath);
+            string obtainedExtension = file.Extension;
+
+            obtainedExtension.Should().Be(expectedExtension);
+        }
+
         #endregion
     }
 }

@@ -2,11 +2,14 @@
 using Microsoft.Extensions.FileProviders;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace WebService.PhysicalFilesAccess
 {
+    using File = FileAccess.File;
+
     public class FilesInfoProvider : IFilesInfoProvider
     {
         private readonly IFileProvider fileProvider;
@@ -20,7 +23,10 @@ namespace WebService.PhysicalFilesAccess
         {
             return this.fileProvider.GetDirectoryContents(string.Empty)
                 .Where(n => n.IsDirectory == false)
-                .Select(n => new File(n.Name, n.LastModified.DateTime, n.PhysicalPath)).AsQueryable();
+                .Select(n => new File(
+                    n.Name, 
+                    n.LastModified.DateTime, 
+                    n.PhysicalPath)).AsQueryable();
         }
     }
 }

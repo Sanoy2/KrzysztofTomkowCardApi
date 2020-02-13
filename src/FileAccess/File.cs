@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace FileAccess
 {
     public class File : IFile
     {
         public string Name { get; }
+        public string Extension { get => this.GetExtension(); }
         public DateTime LastModification { get; }
         public string PhysicalPath { get; }
 
@@ -31,6 +33,20 @@ namespace FileAccess
         private bool IsPathCoherentWithName()
         {
             return this.PhysicalPath.Contains(this.Name);
+        }
+
+        private string GetExtension()
+        {
+            int indexOfFilename = this.PhysicalPath.LastIndexOf(this.Name);
+            string filenameWithExtension = this.PhysicalPath.Substring(indexOfFilename);
+
+            var filenameWithExtensionParts = filenameWithExtension.Split('.');
+            if (filenameWithExtensionParts.Count() == 1)
+            {
+                return string.Empty;
+            }
+
+            return $".{filenameWithExtensionParts.Last().ToLower()}";
         }
     }
 }
