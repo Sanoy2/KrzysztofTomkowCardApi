@@ -15,6 +15,22 @@ namespace FileAccess
             this.Name = name ?? throw new ArgumentNullException(nameof(name));
             this.LastModification = lastModification;
             this.PhysicalPath = physicalPath ?? throw new ArgumentNullException(nameof(physicalPath));
+
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException(nameof(name));
+
+            if (string.IsNullOrWhiteSpace(physicalPath))
+                throw new ArgumentException(nameof(physicalPath));
+
+            if (this.IsPathCoherentWithName() == false)
+            {
+                throw new FileIncoherentPathException();
+            }
+        }
+
+        private bool IsPathCoherentWithName()
+        {
+            return this.PhysicalPath.Contains(this.Name);
         }
     }
 }
