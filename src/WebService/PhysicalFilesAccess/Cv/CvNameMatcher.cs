@@ -7,12 +7,27 @@ namespace WebService.PhysicalFilesAccess.Cv
 {
     public class CvNameMatcher : ICvNameMatcher
     {
-        public bool IsMatch(string nameTemplate, string name)
+        public bool IsMatch(string cvNameTemplate, string comparedName)
         {
-            nameTemplate = nameTemplate.Trim();
-            name = name.Trim();
+            if (cvNameTemplate is null)
+            {
+                throw new ArgumentNullException(nameof(cvNameTemplate));
+            }
 
-            bool result = name.Contains(nameTemplate);
+            if (string.IsNullOrWhiteSpace(cvNameTemplate) || cvNameTemplate == string.Empty)
+            {
+                throw new ArgumentException(nameof(cvNameTemplate));
+            }
+
+            if (comparedName is null)
+            {
+                throw new ArgumentNullException(nameof(comparedName));
+            }
+
+            cvNameTemplate = cvNameTemplate.Trim();
+            comparedName = comparedName.Trim();
+
+            bool result = comparedName.Contains(cvNameTemplate);
 
             return result;
         }
