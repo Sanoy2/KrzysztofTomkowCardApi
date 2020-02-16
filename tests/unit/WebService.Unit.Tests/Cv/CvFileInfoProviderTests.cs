@@ -13,7 +13,6 @@ namespace WebService.Unit.Tests.Cv
     public class CvFileInfoProviderTests
     {
         private readonly ICvFileInfoProvider cvFileInfoProvider;
-
         private readonly IFilesInfoProvider filesInfoProvider;
 
         public CvFileInfoProviderTests()
@@ -28,6 +27,16 @@ namespace WebService.Unit.Tests.Cv
         }
 
         [Fact]
+        public void WhenFilesInfoProviderIsNull_Should_ThrowArgumentNullException()
+        {
+            IFilesInfoProvider nullProvider = null;
+
+            Action act = () => { ICvFileInfoProvider cvFileInfoProvider = new CvFileInfoProvider(nullProvider); };
+
+            act.Should().ThrowExactly<ArgumentNullException>();
+        }
+
+        [Fact]
         public void WhenNoFileAvailable_Should_ThrowInvalidOperationException()
         {
             var returnedFiles = new List<IFile>();
@@ -35,7 +44,7 @@ namespace WebService.Unit.Tests.Cv
 
             Action act = () => { IFile cvFile = this.cvFileInfoProvider.GetFile(); };
 
-            act.Should().ThrowExactly<InvalidOperationException>();
+            act.Should().ThrowExactly<CvNotFoundException>();
         }
 
         [Fact]

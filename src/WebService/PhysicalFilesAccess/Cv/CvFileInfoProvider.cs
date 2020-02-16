@@ -19,10 +19,17 @@ namespace WebService.PhysicalFilesAccess.Cv
         
         public IFile GetFile()
         {
-            return this.filesInfoProvider.GetFiles()
+            var cvFile = this.filesInfoProvider.GetFiles()
                 .MatchCvName(CvName)
                 .OrderByDescending(n => n.LastModification)
-                .First();
+                .FirstOrDefault();
+
+            if(!(cvFile is IFile))
+            {
+                throw new CvNotFoundException();
+            }
+
+            return cvFile;
         }
     }
 }

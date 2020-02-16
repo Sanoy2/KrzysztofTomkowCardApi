@@ -18,16 +18,23 @@ namespace WebService.Controllers
 
         public async Task<IActionResult> Get()
         {
-            IFile cvFileInfo = this.cvPathProvider.GetFile();
-
-            var memory = new MemoryStream();
-            using (var stream = new FileStream(cvFileInfo.PhysicalPath, FileMode.Open))
+            try
             {
-                await stream.CopyToAsync(memory);
-            }
+                IFile cvFileInfo = this.cvPathProvider.GetFile();
 
-            memory.Position = 0;
-            return File(memory, "application/pdf", cvFileInfo.Name);
+                var memory = new MemoryStream();
+                using (var stream = new FileStream(cvFileInfo.PhysicalPath, FileMode.Open))
+                {
+                    await stream.CopyToAsync(memory);
+                }
+
+                memory.Position = 0;
+                return File(memory, "application/pdf", cvFileInfo.Name);
+            }
+            catch(CvNotFoundException)
+            {
+                return NotFound("No CV file found");
+            }
         }
     }
 }
