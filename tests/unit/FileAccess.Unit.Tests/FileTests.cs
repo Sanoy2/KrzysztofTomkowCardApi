@@ -10,9 +10,9 @@ namespace FileAccess.Unit.Tests
 {
     public class FileTests
     {
-        private string correctName;
-        private DateTime correctLastModificationTime;
-        private string correctPhysicalPath;
+        private readonly string correctName;
+        private readonly DateTime correctLastModificationTime;
+        private readonly string correctPhysicalPath;
 
         public FileTests()
         {

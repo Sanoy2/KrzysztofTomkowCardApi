@@ -14,17 +14,19 @@ namespace WebService.Controllers
     {
         public async Task<IActionResult> Get1()
         {
-            var provider = new PhysicalFileProvider("D:\\tmp\\dotnet1");
-            var contents = provider.GetDirectoryContents(string.Empty);
-
-            string path = contents.First().PhysicalPath;
-            var memory = new MemoryStream();
-            using (var stream = new FileStream(path, FileMode.Open))
+            using (var provider = new PhysicalFileProvider("D:\\tmp\\dotnet1"))
             {
-                await stream.CopyToAsync(memory);
+                var contents = provider.GetDirectoryContents(string.Empty);
+
+                string path = contents.First().PhysicalPath;
+                var memory = new MemoryStream();
+                using (var stream = new FileStream(path, FileMode.Open))
+                {
+                    await stream.CopyToAsync(memory);
+                }
+                memory.Position = 0;
+                return File(memory, GetContentType(path), Path.GetFileName(path));
             }
-            memory.Position = 0;
-            return File(memory, GetContentType(path), Path.GetFileName(path));
         }
 
         private string GetContentType(string path)

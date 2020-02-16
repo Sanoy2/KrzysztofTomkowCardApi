@@ -1,15 +1,11 @@
 ﻿using FileAccess;
 using Microsoft.Extensions.FileProviders;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
-namespace WebService.PhysicalFilesAccess
+namespace FileAccess.PhysicalFilesAccess
 {
-    using File = FileAccess.File;
-
     public class FilesInfoProvider : IFilesInfoProvider
     {
         private readonly IFileProvider fileProvider;
