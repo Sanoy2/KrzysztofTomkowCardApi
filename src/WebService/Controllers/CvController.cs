@@ -18,7 +18,7 @@ namespace WebService.Controllers
 
         public async Task<IActionResult> Get()
         {
-            IFile cvFileInfo = this.cvPathProvider.GetPhysicalPath();
+            IFile cvFileInfo = this.cvPathProvider.GetFile();
 
             var memory = new MemoryStream();
             using (var stream = new FileStream(cvFileInfo.PhysicalPath, FileMode.Open))

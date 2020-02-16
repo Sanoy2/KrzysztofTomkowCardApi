@@ -17,7 +17,7 @@ namespace WebService.PhysicalFilesAccess.Cv
             this.filesInfoProvider = filesInfoProvider ?? throw new ArgumentNullException(nameof(filesInfoProvider));
         }
         
-        public IFile GetPhysicalPath()
+        public IFile GetFile()
         {
             return this.filesInfoProvider.GetFiles()
                 .MatchCvName(CvName)
