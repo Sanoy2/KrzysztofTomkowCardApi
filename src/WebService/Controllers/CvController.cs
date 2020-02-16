@@ -7,9 +7,7 @@ using WebService.PhysicalFilesAccess.Cv;
 
 namespace WebService.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class CvController : ControllerBase
+    public class CvController : AbstractController
     {
         private readonly ICvFileInfoProvider cvPathProvider;
 
