@@ -13,8 +13,14 @@ COPY tests/unit/WebService.Unit.Tests/*.csproj ./tests/unit/WebService.Unit.Test
 
 RUN dotnet restore
 
-# # copy everything else and build app
-# # COPY src/. ./aspnetapp/
+# copy everything else and build app
+COPY src/. ./src/
+COPY tests/. ./tests/
+
+RUN dotnet build
+
+RUN dotnet test
+
 # WORKDIR /source/aspnetapp
 # RUN dotnet publish -c release -o /app --no-restore
 
