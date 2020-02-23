@@ -1,7 +1,10 @@
-﻿using FileAccess;
-using Microsoft.AspNetCore.Mvc;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Mvc;
+
+using FileAccess;
+
 using WebService.PhysicalFilesAccess;
 using WebService.PhysicalFilesAccess.Cv;
 
@@ -13,9 +16,11 @@ namespace WebService.Controllers
 
         public CvController(ICvFileInfoProvider cvPathProvider)
         {
-            this.cvPathProvider = cvPathProvider ?? throw new System.ArgumentNullException(nameof(cvPathProvider));
+            this.cvPathProvider = cvPathProvider ??
+                throw new System.ArgumentNullException(nameof(cvPathProvider));
         }
 
+        [HttpGet]
         public async Task<IActionResult> Get()
         {
             try
@@ -23,7 +28,7 @@ namespace WebService.Controllers
                 IFile cvFileInfo = this.cvPathProvider.GetFile();
 
                 var memory = new MemoryStream();
-                using (var stream = new FileStream(cvFileInfo.PhysicalPath, FileMode.Open))
+                using(var stream = new FileStream(cvFileInfo.PhysicalPath, FileMode.Open))
                 {
                     await stream.CopyToAsync(memory);
                 }
@@ -31,7 +36,7 @@ namespace WebService.Controllers
                 memory.Position = 0;
                 return File(memory, "application/pdf", cvFileInfo.Name);
             }
-            catch(CvNotFoundException)
+            catch (CvNotFoundException)
             {
                 return NotFound("No CV file found");
             }
