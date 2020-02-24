@@ -16,15 +16,32 @@ namespace WebService.PhysicalFilesAccess.Cv
         {
             this.filesInfoProvider = filesInfoProvider ?? throw new ArgumentNullException(nameof(filesInfoProvider));
         }
-        
-        public IFile GetFile()
+
+        public IFile GetPdf()
         {
             var cvFile = this.filesInfoProvider.GetFiles()
+                .Where(n => n.Extension == ".pdf")
                 .MatchCvName(CvName)
                 .OrderByDescending(n => n.LastModification)
                 .FirstOrDefault();
 
-            if(!(cvFile is IFile))
+            if (!(cvFile is IFile))
+            {
+                throw new CvNotFoundException();
+            }
+
+            return cvFile;
+        }
+
+        public IFile GetImage()
+        {
+            var cvFile = this.filesInfoProvider.GetFiles()
+                .Where(n => n.Extension == ".jpg" || n.Extension == ".jpeg")
+                .MatchCvName(CvName)
+                .OrderByDescending(n => n.LastModification)
+                .FirstOrDefault();
+
+            if (!(cvFile is IFile))
             {
                 throw new CvNotFoundException();
             }
