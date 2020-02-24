@@ -8,6 +8,7 @@ namespace WebService.PhysicalFilesAccess.Cv
 {
     public interface ICvFileInfoProvider
     {
-        IFile GetFile();
+        IFile GetPdf();
+        IFile GetImage();
     }
 }

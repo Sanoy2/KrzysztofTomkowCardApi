@@ -37,42 +37,97 @@ namespace WebService.Unit.Tests.Cv
         }
 
         [Fact]
-        public void WhenNoFileAvailable_Should_ThrowInvalidOperationException()
+        public void WhenNoPdfAvailable_Should_ThrowInvalidOperationException()
         {
             var returnedFiles = new List<IFile>();
             this.filesInfoProvider.GetFiles().Returns(returnedFiles.AsQueryable());
 
-            Action act = () => { IFile cvFile = this.cvFileInfoProvider.GetFile(); };
+            Action act = () => { IFile cvFile = this.cvFileInfoProvider.GetPdf(); };
 
             act.Should().ThrowExactly<CvNotFoundException>();
         }
 
         [Fact]
-        public void WhenOneFileAvailable_Should_ReturnThatFile()
+        public void WhenNoImageAvailable_Should_ThrowInvalidOperationException()
+        {
+            var returnedFiles = new List<IFile>();
+            this.filesInfoProvider.GetFiles().Returns(returnedFiles.AsQueryable());
+
+            Action act = () => { IFile cvFile = this.cvFileInfoProvider.GetImage(); };
+
+            act.Should().ThrowExactly<CvNotFoundException>();
+        }
+
+
+        [Fact]
+        public void WhenOnePdfAvailable_Should_ReturnThatFile()
         {
             var returnedFiles = new List<IFile>();
             returnedFiles.Add(new File("CV", DateTime.Now, "/home/CV.pdf"));
             this.filesInfoProvider.GetFiles().Returns(returnedFiles.AsQueryable());
 
-            IFile cvFile = this.cvFileInfoProvider.GetFile();
+            IFile cvFile = this.cvFileInfoProvider.GetPdf();
 
             cvFile.Name.Should().Be("CV");
             cvFile.PhysicalPath.Should().Be("/home/CV.pdf");
         }
 
         [Fact]
-        public void WhenTwoFileAvailable_Should_ReturnYoungerFile()
+        public void WhenTwoPdfsAvailable_Should_ReturnYoungerFile()
         {
             var returnedFiles = new List<IFile>();
             returnedFiles.Add(new File("CV", new DateTime(2015, 10, 28), "/home/CV.pdf"));
             returnedFiles.Add(new File("CV_New", new DateTime(2015, 11, 05), "/home/CV_New.pdf"));
             this.filesInfoProvider.GetFiles().Returns(returnedFiles.AsQueryable());
 
-            IFile cvFile = this.cvFileInfoProvider.GetFile();
+            IFile cvFile = this.cvFileInfoProvider.GetPdf();
 
             cvFile.Name.Should().Be("CV_New");
             cvFile.LastModification.Should().Be(new DateTime(2015, 11, 05));
             cvFile.PhysicalPath.Should().Be("/home/CV_New.pdf");
+        }
+
+        [Fact]
+        public void WhenOneImageAvailable_Should_ReturnThatFile()
+        {
+            var returnedFiles = new List<IFile>();
+            returnedFiles.Add(new File("CV", DateTime.Now, "/home/CV.jpg"));
+            this.filesInfoProvider.GetFiles().Returns(returnedFiles.AsQueryable());
+
+            IFile cvFile = this.cvFileInfoProvider.GetImage();
+
+            cvFile.Name.Should().Be("CV");
+            cvFile.PhysicalPath.Should().Be("/home/CV.jpg");
+        }
+
+        [Fact]
+        public void WhenTwoImagesAvailable_Should_ReturnYoungerFile()
+        {
+            var returnedFiles = new List<IFile>();
+            returnedFiles.Add(new File("CV", new DateTime(2015, 10, 28), "/home/CV.jpg"));
+            returnedFiles.Add(new File("CV_New", new DateTime(2015, 11, 05), "/home/CV_New.jpg"));
+            this.filesInfoProvider.GetFiles().Returns(returnedFiles.AsQueryable());
+
+            IFile cvFile = this.cvFileInfoProvider.GetImage();
+
+            cvFile.Name.Should().Be("CV_New");
+            cvFile.LastModification.Should().Be(new DateTime(2015, 11, 05));
+            cvFile.PhysicalPath.Should().Be("/home/CV_New.jpg");
+        }
+
+        [Theory]
+        [InlineData(".jpg")]
+        [InlineData(".jpeg")]
+        public void WhenImageWithSupportedExtensionAvailable_Should_ReturnThatFile(string extension)
+        {
+            var returnedFiles = new List<IFile>();
+            returnedFiles.Add(new File("CV", DateTime.Now, $"/home/CV.{extension}"));
+            this.filesInfoProvider.GetFiles().Returns(returnedFiles.AsQueryable());
+
+            IFile cvFile = this.cvFileInfoProvider.GetImage();
+
+            cvFile.Name.Should().Be("CV");
+            cvFile.Extension.Should().Be(extension);
         }
     }
 }

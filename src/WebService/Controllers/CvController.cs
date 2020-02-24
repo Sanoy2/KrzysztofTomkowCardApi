@@ -16,11 +16,13 @@ namespace WebService.Controllers
             this.cvPathProvider = cvPathProvider ?? throw new System.ArgumentNullException(nameof(cvPathProvider));
         }
 
-        public async Task<IActionResult> Get()
+        [Route("pdf")]
+        [HttpGet]
+        public async Task<IActionResult> GetPdf()
         {
             try
             {
-                IFile cvFileInfo = this.cvPathProvider.GetFile();
+                IFile cvFileInfo = this.cvPathProvider.GetPdf();
 
                 var memory = new MemoryStream();
                 using (var stream = new FileStream(cvFileInfo.PhysicalPath, FileMode.Open))
@@ -31,7 +33,30 @@ namespace WebService.Controllers
                 memory.Position = 0;
                 return File(memory, "application/pdf", cvFileInfo.Name);
             }
-            catch(CvNotFoundException)
+            catch (CvNotFoundException)
+            {
+                return NotFound("No CV file found");
+            }
+        }
+
+        [Route("image")]
+        [HttpGet]
+        public async Task<IActionResult> GetImage()
+        {
+            try
+            {
+                IFile cvFileInfo = this.cvPathProvider.GetPdf();
+
+                var memory = new MemoryStream();
+                using (var stream = new FileStream(cvFileInfo.PhysicalPath, FileMode.Open))
+                {
+                    await stream.CopyToAsync(memory);
+                }
+
+                memory.Position = 0;
+                return File(memory, "image/jpeg", cvFileInfo.Name);
+            }
+            catch (CvNotFoundException)
             {
                 return NotFound("No CV file found");
             }
