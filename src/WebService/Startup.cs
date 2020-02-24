@@ -2,8 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FileAccess;
-using FileAccess.PhysicalFilesAccess;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -12,10 +11,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
+
+using FileAccess;
+using FileAccess.PhysicalFilesAccess;
+
 using WebService.Configuration;
 using WebService.PhysicalFilesAccess;
 using WebService.PhysicalFilesAccess.Cv;
-
 
 namespace WebService
 {
@@ -40,6 +43,11 @@ namespace WebService
             services.AddSingleton<GeneralSettings>(generalSettings);
 
             services.AddTransient<IFileProvider>(n => new PhysicalFileProvider(generalSettings.FileStorageMainDirectory));
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My Card API", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,6 +57,13 @@ namespace WebService
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Card API V1");
+                c.RoutePrefix = string.Empty;
+            });
 
             //app.UseHttpsRedirection();
 
