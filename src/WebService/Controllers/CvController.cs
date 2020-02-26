@@ -29,7 +29,7 @@ namespace WebService.Controllers
                 IFile cvFileInfo = this.cvPathProvider.GetPdf();
 
                 var memory = new MemoryStream();
-                using(var stream = new FileStream(cvFileInfo.PhysicalPath, FileMode.Open))
+                using (var stream = new FileStream(cvFileInfo.PhysicalPath, FileMode.Open))
                 {
                     await stream.CopyToAsync(memory);
                 }
@@ -39,7 +39,7 @@ namespace WebService.Controllers
             }
             catch (CvNotFoundException)
             {
-                return NotFound("No CV file found");
+                return NotFound("No CV pdf file found");
             }
         }
 
@@ -49,7 +49,7 @@ namespace WebService.Controllers
         {
             try
             {
-                IFile cvFileInfo = this.cvPathProvider.GetPdf();
+                IFile cvFileInfo = this.cvPathProvider.GetImage();
 
                 var memory = new MemoryStream();
                 using (var stream = new FileStream(cvFileInfo.PhysicalPath, FileMode.Open))
@@ -62,7 +62,7 @@ namespace WebService.Controllers
             }
             catch (CvNotFoundException)
             {
-                return NotFound("No CV file found");
+                return NotFound("No CV image file found");
             }
         }
     }
