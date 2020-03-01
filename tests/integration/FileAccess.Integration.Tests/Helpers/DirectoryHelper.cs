@@ -3,7 +3,7 @@ using System.IO;
 
 namespace FileAccess.Integration.Tests.Helpers
 {
-    internal sealed class DirectoryHelper
+    internal sealed class DirectoryHelper : IDisposable
     {
         private readonly string directoryName;
         private readonly string fullPath;
