@@ -14,6 +14,8 @@ namespace FileAccess.Integration.Tests.Helpers
         {
             this.directoryName = directoryName;
             this.fullPath = this.GetPath();
+
+            this.CreateDirectory();
         }
 
         public void Dispose()
