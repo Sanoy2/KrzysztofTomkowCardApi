@@ -22,5 +22,23 @@ namespace FileAccess
 
             return result;
         }
+
+        public MemoryStream GetFileAsMemoryStream(string physicalPath)
+        {
+            return this.GetFileAsMemoryStreamAsync(physicalPath).Result;
+        }
+
+        public async Task<MemoryStream> GetFileAsMemoryStreamAsync(string physicalPath)
+        {
+            var memory = new MemoryStream();
+            using (var stream = new FileStream(physicalPath, FileMode.Open))
+            {
+                await stream.CopyToAsync(memory);
+            }
+
+            memory.Position = 0;
+
+            return memory;
+        }
     }
 }
