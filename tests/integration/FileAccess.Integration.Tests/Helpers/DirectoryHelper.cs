@@ -3,7 +3,7 @@ using System.IO;
 
 namespace FileAccess.Integration.Tests.Helpers
 {
-    internal sealed class DirectoryHelper : IDisposable
+    internal sealed class DirectoryHelper : IFileCreator, IDisposable
     {
         private readonly string directoryName;
         private readonly string fullPath;
@@ -18,6 +18,16 @@ namespace FileAccess.Integration.Tests.Helpers
             this.CreateDirectory();
         }
 
+        public void CreateFile(string name, string extension)
+        {
+            if (extension.StartsWith('.') == false)
+            {
+                extension = '.' + extension;
+            }
+            string path = $"{this.fullPath}/{name}{extension}";
+            System.IO.File.Create(path);
+        }
+
         public void Dispose()
         {
             this.RemoveDirectory();
@@ -25,6 +35,7 @@ namespace FileAccess.Integration.Tests.Helpers
 
         private void CreateDirectory()
         {
+            this.DeleteDirectoryIfExist();
             Directory.CreateDirectory(this.fullPath);
         }
 
@@ -41,6 +52,14 @@ namespace FileAccess.Integration.Tests.Helpers
         private string GetCurrentDirectory()
         {
             return Directory.GetCurrentDirectory();
+        }
+
+        private void DeleteDirectoryIfExist()
+        {
+            if (Directory.Exists(this.fullPath))
+            {
+                this.RemoveDirectory();
+            }
         }
     }
 }
