@@ -2,7 +2,7 @@ namespace Common
 {
     public enum Language
     {
-        pl,
-        end
+        pl = 1,
+        eng = 2
     }
 }
