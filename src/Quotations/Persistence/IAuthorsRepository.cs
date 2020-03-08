@@ -3,7 +3,7 @@ using Quotations.Models;
 
 namespace Quotations.Persistence
 {
-    public interface IAuthorRepository
+    public interface IAuthorsRepository
     {
         Author Save(Author author);
 

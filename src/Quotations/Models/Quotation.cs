@@ -8,6 +8,7 @@ namespace Quotations.Models
         public int Id { get; }
         public Language Language { get; }
         public Author Author { get; }
+        public int AuthorId { get; }
         public string Content { get; }
 
         protected Quotation() { }
@@ -16,6 +17,7 @@ namespace Quotations.Models
         {
             this.Author = author ??
                 throw new ArgumentNullException(nameof(author));
+            this.AuthorId = author.Id;
             this.Content = content;
             this.Language = language;
         }
