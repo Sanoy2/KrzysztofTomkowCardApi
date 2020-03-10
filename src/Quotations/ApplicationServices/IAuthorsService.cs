@@ -6,6 +6,6 @@ namespace Quotations.ApplicationServices
     {
         int Create(string name);
 
-        int AddQuotation(int authorId, string text, string language);
+        int AddQuotation(int authorId, string text, string languageCode);
     }
 }

@@ -1,18 +1,23 @@
 using System.Collections.Generic;
+using System.Linq;
+
 using Common;
 
 namespace Quotations.Models
 {
-    public class Author
+    public class Author : Entity
     {
-        public int Id { get; }
         private List<Quotation> quotations = new List<Quotation>();
         public IEnumerable<Quotation> Quotations { get; }
         public string Name { get; }
 
-        public Quotation AddQuotation(string content, Language language)
+        public Author(string name, long id) : base(id)
         {
-            var quotation = new Quotation(this, content, language);
+            this.Name = name;
+        }
+
+        public Quotation AddQuotation(Quotation quotation)
+        {
             this.quotations.Add(quotation);
 
             return quotation;
