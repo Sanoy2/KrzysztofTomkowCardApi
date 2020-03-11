@@ -6,13 +6,14 @@ namespace FileAccess.Integration.Tests.Helpers
     internal sealed class DirectoryHelper : IFileCreator, IDisposable
     {
         private readonly string directoryName;
+        private readonly string directoryPreName = "integration_test_";
         private readonly string fullPath;
 
         internal string DirectoryPath => this.GetPath();
 
         public DirectoryHelper()
         {
-            this.directoryName = Guid.NewGuid().ToString();
+            this.directoryName = $"{this.directoryPreName}{Guid.NewGuid().ToString()}";
             this.fullPath = this.GetPath();
 
             this.CreateDirectory();
@@ -20,7 +21,7 @@ namespace FileAccess.Integration.Tests.Helpers
 
         public DirectoryHelper(string directoryName)
         {
-            this.directoryName = directoryName;
+            this.directoryName = $"{this.directoryPreName}{directoryName}";
             this.fullPath = this.GetPath();
 
             this.CreateDirectory();
