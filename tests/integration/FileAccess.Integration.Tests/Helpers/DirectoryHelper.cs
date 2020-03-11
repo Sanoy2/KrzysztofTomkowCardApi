@@ -10,6 +10,14 @@ namespace FileAccess.Integration.Tests.Helpers
 
         internal string DirectoryPath => this.GetPath();
 
+        public DirectoryHelper()
+        {
+            this.directoryName = Guid.NewGuid().ToString();
+            this.fullPath = this.GetPath();
+
+            this.CreateDirectory();
+        }
+
         public DirectoryHelper(string directoryName)
         {
             this.directoryName = directoryName;
