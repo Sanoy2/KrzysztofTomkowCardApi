@@ -58,7 +58,7 @@ namespace FileAccess.Integration.Tests
 
                 IEnumerable<IFile> files = filesInfoProvider.GetFiles();
 
-                files.First().Name.Should().Be(fileName);
+                files.Single().Name.Should().Be(fileName);
             }
         }
 
@@ -77,8 +77,58 @@ namespace FileAccess.Integration.Tests
 
                 IEnumerable<IFile> files = filesInfoProvider.GetFiles();
 
-                files.First().Name.Should().Be(fileName);
-                files.First().Extension.Should().Be(extension);
+                files.Single().Name.Should().Be(fileName);
+                files.Single().Extension.Should().Be(extension);
+            }
+        }
+
+        [Theory]
+        [InlineData(".pdf")]
+        [InlineData(".txt")]
+        [InlineData(".jpg")]
+        [InlineData(".jpeg")]
+        [InlineData(".png")]
+        public void When_file_WithGivenKnownExtension_IsInDirectory_Then_FileWithGivenExtensionCutOffFromName_Found(string extension)
+        {
+            string fileName = "testFileName";
+
+            using (var helper = new DirectoryHelper())
+            {
+                helper.CreateFile(fileName, extension);
+
+                IFileProvider fileProvider = new PhysicalFileProvider(helper.DirectoryPath);
+                IFilesInfoProvider filesInfoProvider = new FilesInfoProvider(fileProvider);
+
+                IEnumerable<IFile> files = filesInfoProvider.GetFiles();
+
+                files.Single().Name.Should().Be(fileName);
+                files.Single().Extension.Should().Be(extension);
+            }
+        }
+
+        [Theory]
+        [InlineData(".a")]
+        [InlineData(".cs")]
+        [InlineData(".cpp")]
+        [InlineData(".somestrangeextension")]
+        [InlineData(".gif")]
+        [InlineData(".xml")]
+        [InlineData(".json")]
+        public void When_file_WithGivenUnknownExtension_IsInDirectory_Then_FileWithGivenExtensionInName_Found(string extension)
+        {
+            string fileName = "testFileName";
+
+            using (var helper = new DirectoryHelper())
+            {
+                helper.CreateFile(fileName, extension);
+
+                IFileProvider fileProvider = new PhysicalFileProvider(helper.DirectoryPath);
+                IFilesInfoProvider filesInfoProvider = new FilesInfoProvider(fileProvider);
+
+                IEnumerable<IFile> files = filesInfoProvider.GetFiles();
+
+                files.Single().Name.Should().Be($"{fileName}{extension}");
+                files.Single().Extension.Should().Be(extension);
             }
         }
     }
