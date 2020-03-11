@@ -11,7 +11,9 @@ namespace Quotations.Models
         public IEnumerable<Quotation> Quotations { get; }
         public string Name { get; }
 
-        public Author(string name, long id) : base(id)
+        protected Author() { }
+
+        public Author(string name)
         {
             this.Name = name;
         }

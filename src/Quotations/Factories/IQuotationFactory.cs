@@ -1,3 +1,4 @@
+using System;
 using Common;
 using Quotations.Models;
 
@@ -8,6 +9,6 @@ namespace Quotations.Factories
 
     public interface IQuotationFactory
     {
-        Quotation Create(long authorId, string content, Language language, long id);
+        Quotation Create(Guid authorId, string content, Language language);
     }
 }

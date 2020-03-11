@@ -1,3 +1,4 @@
+using System;
 using Common;
 
 namespace Quotations.ApplicationServices
@@ -6,6 +7,6 @@ namespace Quotations.ApplicationServices
     {
         int Create(string name);
 
-        int AddQuotation(int authorId, string text, string languageCode);
+        Guid AddQuotation(Guid authorId, string text, string languageCode);
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Common;
+using Quotations.Factories;
 using Quotations.Models;
 using Quotations.Persistence;
 
@@ -9,14 +10,16 @@ namespace Quotations.ApplicationServices
     public class AuthorsService : IAuthorsService
     {
         private readonly IAuthorsRepository authorsRepository;
+        private readonly IAuthorFactory authorFactory;
         private readonly ILanguageTransformer languageTransformer;
 
-        public AuthorsService(IAuthorsRepository authorsRepository, ILanguageTransformer languageTransformer)
+        public AuthorsService(IAuthorsRepository authorsRepository, IAuthorFactory authorFactory, ILanguageTransformer languageTransformer)
         {
             this.authorsRepository = authorsRepository ?? throw new ArgumentNullException(nameof(authorsRepository));
+            this.authorFactory = authorFactory ?? throw new ArgumentNullException(nameof(authorFactory));
             this.languageTransformer = languageTransformer ?? throw new ArgumentNullException(nameof(languageTransformer));
         }
-        public int AddQuotation(int authorId, string text, string languageCode)
+        public Guid AddQuotation(Guid authorId, string text, string languageCode)
         {
             Author author = this.authorsRepository.Get(authorId) ?? throw new ArgumentException("Not found author of given Id", nameof(authorId));
 
@@ -31,24 +34,9 @@ namespace Quotations.ApplicationServices
 
         public int Create(string name)
         {
-            if (String.IsNullOrWhiteSpace(name))
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
-
-            if (this.authorsRepository.Get().Where(n => n.Name == name).Any())
-            {
-                throw new ArgumentException("Author of given name already exists", nameof(name));
-            }
-
-            // Author newAuthor = new Author(name);
-
-            // this.authorsRepository.Save(newAuthor);
-
-            // return newAuthor.Id;
+            Author newAuthor = this.authorFactory.Create(name);
 
             throw new NotImplementedException();
-
         }
     }
 }

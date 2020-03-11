@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Quotations.Models;
 
@@ -9,6 +10,6 @@ namespace Quotations.Persistence
 
         IQueryable<Author> Get();
 
-        Author Get(int authorId);
+        Author Get(Guid authorId);
     }
 }

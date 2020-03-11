@@ -9,7 +9,9 @@ namespace Quotations.Models
         public Author Author { get; }
         public string Content { get; }
 
-        public Quotation(Author author, string content, Language language, long id) : base(id)
+        protected Quotation() { }
+
+        public Quotation(Author author, string content, Language language)
         {
             this.Author = author ??
                 throw new ArgumentNullException(nameof(author));
