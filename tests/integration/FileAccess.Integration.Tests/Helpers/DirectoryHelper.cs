@@ -26,12 +26,28 @@ namespace FileAccess.Integration.Tests.Helpers
             this.CreateDirectory();
         }
 
+        public void CreateFile()
+        {
+            string name = Guid.NewGuid().ToString();
+
+
+            this.CreateFile(name);
+        }
+
+        public void CreateFile(string name)
+        {
+            string extension = this.GetRandomExtension();
+
+            this.CreateFile(name, extension);
+        }
+
         public void CreateFile(string name, string extension)
         {
             if (extension.StartsWith('.') == false)
             {
                 extension = '.' + extension;
             }
+
             string path = $"{this.fullPath}/{name}{extension}";
             System.IO.File.Create(path);
         }
@@ -68,6 +84,16 @@ namespace FileAccess.Integration.Tests.Helpers
             {
                 this.RemoveDirectory();
             }
+        }
+
+        private string GetRandomExtension()
+        {
+            string[] extensions = { ".txt", ".pdf", ".jpg", ".jpeg", ".png" };
+
+            var random = new Random();
+            int randomExtensionIndex = random.Next(extensions.Length);
+
+            return extensions[randomExtensionIndex];
         }
     }
 }
