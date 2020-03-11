@@ -229,6 +229,34 @@ namespace FileAccess.Unit.Tests
             obtainedExtension.Should().Be(expectedExtension);
         }
 
+        [Fact]
+        public void Extension_WhenFileNameIsGivenWithKnownExtension_Should_CutExtension()
+        {
+            string extension = ".txt";
+            string filename = "fileWithExtension";
+            string filenameWithExtension = $"{filename}{extension}";
+            string correctPath = $"/usr/share/images/{filenameWithExtension}";
+
+            IFile file = new File(filenameWithExtension, this.correctLastModificationTime, correctPath);
+            string obtainedFilename = file.Name;
+
+            obtainedFilename.Should().Be(filename);
+        }
+
+        [Fact]
+        public void Extension_WhenFileNameIsGivenWithUnknownExtension_Should__Not_CutExtension()
+        {
+            string extension = ".css";
+            string filename = "fileWithExtension";
+            string filenameWithExtension = $"{filename}{extension}";
+            string correctPath = $"/usr/share/images/{filenameWithExtension}";
+
+            IFile file = new File(filenameWithExtension, this.correctLastModificationTime, correctPath);
+            string obtainedFilename = file.Name;
+
+            obtainedFilename.Should().Be(filenameWithExtension);
+        }
+
         [Theory]
         [InlineData(@"/home/usr/")]
         [InlineData(@"~/usr/")]

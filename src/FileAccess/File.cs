@@ -14,7 +14,12 @@ namespace FileAccess
 
         public File(string name, DateTime lastModification, string physicalPath)
         {
-            this.Name = name ?? throw new ArgumentNullException(nameof(name));
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            this.Name = this.CutExtensionOffFromName(name);
             this.LastModification = lastModification;
             this.PhysicalPath = physicalPath ?? throw new ArgumentNullException(nameof(physicalPath));
 
@@ -47,6 +52,27 @@ namespace FileAccess
             }
 
             return $".{filenameWithExtensionParts.Last().ToLower()}";
+        }
+
+        private string CutExtensionOffFromName(string filenameWithExtension)
+        {
+            string[] knownExtensions = { ".txt", ".pdf", ".png", "jpeg", "jpg" };
+
+            if (filenameWithExtension.Length < knownExtensions.Min(n => n.Length))
+            {
+                return filenameWithExtension;
+            }
+
+            bool shouldExtensionBeCutOff = knownExtensions.Any(n => filenameWithExtension.Contains(n));
+
+            if (shouldExtensionBeCutOff == false)
+            {
+                return filenameWithExtension;
+            }
+
+            int indexOfLastDot = filenameWithExtension.LastIndexOf('.');
+
+            return filenameWithExtension.Substring(0, indexOfLastDot);
         }
     }
 }

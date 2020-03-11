@@ -20,9 +20,10 @@ namespace FileAccess.PhysicalFilesAccess
             return this.fileProvider.GetDirectoryContents(string.Empty)
                 .Where(n => n.IsDirectory == false)
                 .Select(n => new File(
-                    n.Name, 
-                    n.LastModified.DateTime, 
-                    n.PhysicalPath)).AsQueryable();
+                    n.Name,
+                    n.LastModified.DateTime,
+                    n.PhysicalPath))
+                .AsQueryable();
         }
     }
 }
