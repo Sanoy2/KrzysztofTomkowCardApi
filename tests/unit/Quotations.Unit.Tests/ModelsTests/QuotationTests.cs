@@ -6,7 +6,7 @@ using Xunit;
 using FluentAssertions;
 using Quotations.Models;
 
-namespace Quotations.Unit.Tests.Models
+namespace Quotations.Unit.Tests.ModelsTests
 {
     public class QuotationTests
     {
