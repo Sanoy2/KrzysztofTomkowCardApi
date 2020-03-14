@@ -82,6 +82,131 @@ namespace FileAccess.Integration.Tests
             }
         }
 
+        [Fact]
+        public void When_2FilesWithTheSameNameAndDifferentExtension_AreInDirectory_Then_2ElementCollection_Found()
+        {
+            string fileName = "testFileName";
+            string extension1 = ".txt";
+            string extension2 = ".pdf";
+
+            using (var helper = new DirectoryHelper())
+            {
+                helper.CreateFile(fileName, extension1);
+                helper.CreateFile(fileName, extension2);
+
+                IFileProvider fileProvider = new PhysicalFileProvider(helper.DirectoryPath);
+                IFilesInfoProvider filesInfoProvider = new FilesInfoProvider(fileProvider);
+
+                IEnumerable<IFile> files = filesInfoProvider.GetFiles();
+
+                files.Should().HaveCount(2);
+            }
+        }
+
+        [Fact]
+        public void When_2Files_AreInDirectory_Then_2ElementCollection_FoundWithProperName()
+        {
+            string fileName1 = "testFilename1";
+            string fileName2 = "testFilename2";
+
+            string extension1 = ".txt";
+            string extension2 = ".pdf";
+
+            using (var helper = new DirectoryHelper())
+            {
+                helper.CreateFile(fileName1, extension1);
+                helper.CreateFile(fileName2, extension2);
+
+                IFileProvider fileProvider = new PhysicalFileProvider(helper.DirectoryPath);
+                IFilesInfoProvider filesInfoProvider = new FilesInfoProvider(fileProvider);
+
+                IEnumerable<IFile> files = filesInfoProvider.GetFiles();
+
+                files.Single(n => n.Name == fileName1);
+                files.Single(n => n.Name == fileName2);
+            }
+        }
+
+        [Fact]
+        public void When_2Files_AreInDirectory_Then_2ElementCollection_FoundWithProperNameAndExtension()
+        {
+            string fileName1 = "testFilename1";
+            string fileName2 = "testFilename2";
+
+            string extension1 = ".txt";
+            string extension2 = ".pdf";
+
+            using (var helper = new DirectoryHelper())
+            {
+                helper.CreateFile(fileName1, extension1);
+                helper.CreateFile(fileName2, extension2);
+
+                IFileProvider fileProvider = new PhysicalFileProvider(helper.DirectoryPath);
+                IFilesInfoProvider filesInfoProvider = new FilesInfoProvider(fileProvider);
+
+                IEnumerable<IFile> files = filesInfoProvider.GetFiles();
+
+                files.Single(n => n.Name == fileName1 && n.Extension == extension1);
+                files.Single(n => n.Name == fileName2 && n.Extension == extension2);
+            }
+        }
+
+        [Fact]
+        public void When_2Files_AreInDirectory_Then_TwoElementCollection_Found()
+        {
+            using (var helper = new DirectoryHelper())
+            {
+                helper.CreateFile();
+                helper.CreateFile();
+
+                IFileProvider fileProvider = new PhysicalFileProvider(helper.DirectoryPath);
+                IFilesInfoProvider filesInfoProvider = new FilesInfoProvider(fileProvider);
+
+                IEnumerable<IFile> files = filesInfoProvider.GetFiles();
+
+                files.Should().HaveCount(2);
+            }
+        }
+
+        [Fact]
+        public void When_5Files_AreInDirectory_Then_5ElementCollection_Found()
+        {
+            using (var helper = new DirectoryHelper())
+            {
+                helper.CreateFile();
+                helper.CreateFile();
+                helper.CreateFile();
+                helper.CreateFile();
+                helper.CreateFile();
+
+                IFileProvider fileProvider = new PhysicalFileProvider(helper.DirectoryPath);
+                IFilesInfoProvider filesInfoProvider = new FilesInfoProvider(fileProvider);
+
+                IEnumerable<IFile> files = filesInfoProvider.GetFiles();
+
+                files.Should().HaveCount(5);
+            }
+        }
+
+        [Fact]
+        public void When_15827Files_AreInDirectory_Then_15827ElementCollection_Found()
+        {
+            using (var helper = new DirectoryHelper())
+            {
+                for (int i = 0; i < 15827; i++)
+                {
+                    helper.CreateFile();
+                }
+
+                IFileProvider fileProvider = new PhysicalFileProvider(helper.DirectoryPath);
+                IFilesInfoProvider filesInfoProvider = new FilesInfoProvider(fileProvider);
+
+                IEnumerable<IFile> files = filesInfoProvider.GetFiles();
+
+                files.Should().HaveCount(15827);
+            }
+        }
+
         [Theory]
         [InlineData(".pdf")]
         [InlineData(".txt")]
