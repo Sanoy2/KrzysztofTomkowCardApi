@@ -9,7 +9,7 @@ namespace Common.Unit.Tests.TextTransformationsTests
 {
     public class TitleCaseTextTransformerTests
     {
-        private readonly ITextTransformer transformer;
+        private readonly ITitleCaseTextTransformer transformer;
 
         public TitleCaseTextTransformerTests()
         {
