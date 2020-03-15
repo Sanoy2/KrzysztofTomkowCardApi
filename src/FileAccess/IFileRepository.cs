@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.IO;
+using System.Threading.Tasks;
 
 namespace FileAccess
 {
@@ -6,5 +7,7 @@ namespace FileAccess
     {
         byte[] GetFileAsBytes(string physicalPath);
         Task<byte[]> GetFileAsBytesAsync(string physicalPath);
+        MemoryStream GetFileAsMemoryStream(string physicalPath);
+        Task<MemoryStream> GetFileAsMemoryStreamAsync(string physicalPath);
     }
 }

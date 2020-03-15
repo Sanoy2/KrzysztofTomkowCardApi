@@ -13,11 +13,17 @@ namespace WebService.Controllers
     public class CvController : AbstractController
     {
         private readonly ICvFileInfoProvider cvPathProvider;
+        private readonly IFileRepository fileRepository;
 
-        public CvController(ICvFileInfoProvider cvPathProvider)
+        public CvController(
+            ICvFileInfoProvider cvPathProvider,
+            IFileRepository fileRepository)
         {
             this.cvPathProvider = cvPathProvider ??
                 throw new System.ArgumentNullException(nameof(cvPathProvider));
+
+            this.fileRepository = fileRepository ??
+                throw new System.ArgumentNullException(nameof(fileRepository));
         }
 
         [Route("pdf")]
@@ -28,13 +34,8 @@ namespace WebService.Controllers
             {
                 IFile cvFileInfo = this.cvPathProvider.GetPdf();
 
-                var memory = new MemoryStream();
-                using (var stream = new FileStream(cvFileInfo.PhysicalPath, FileMode.Open))
-                {
-                    await stream.CopyToAsync(memory);
-                }
+                var memory = await this.fileRepository.GetFileAsMemoryStreamAsync(cvFileInfo.PhysicalPath);
 
-                memory.Position = 0;
                 return File(memory, "application/pdf", cvFileInfo.Name);
             }
             catch (CvNotFoundException)
@@ -51,13 +52,8 @@ namespace WebService.Controllers
             {
                 IFile cvFileInfo = this.cvPathProvider.GetImage();
 
-                var memory = new MemoryStream();
-                using (var stream = new FileStream(cvFileInfo.PhysicalPath, FileMode.Open))
-                {
-                    await stream.CopyToAsync(memory);
-                }
+                var memory = await this.fileRepository.GetFileAsMemoryStreamAsync(cvFileInfo.PhysicalPath);
 
-                memory.Position = 0;
                 return File(memory, "image/jpeg", cvFileInfo.Name);
             }
             catch (CvNotFoundException)
