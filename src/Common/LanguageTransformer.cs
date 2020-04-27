@@ -26,7 +26,7 @@ namespace Common
                     return Language.pl;
 
                 default:
-                    throw new ArgumentException("Given language is not supported", nameof(languageCode));
+                    throw new ValidationException("Given language is not supported", nameof(languageCode));
             }
         }
     }

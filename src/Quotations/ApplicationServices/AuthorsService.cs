@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Common;
+using Quotations.DomainServices;
 using Quotations.Factories;
 using Quotations.Models;
 using Quotations.Persistence;
@@ -11,32 +12,40 @@ namespace Quotations.ApplicationServices
     {
         private readonly IAuthorsRepository authorsRepository;
         private readonly IAuthorFactory authorFactory;
-        private readonly ILanguageTransformer languageTransformer;
+        private readonly IQuotationDomainService quotationDomainService;
 
-        public AuthorsService(IAuthorsRepository authorsRepository, IAuthorFactory authorFactory, ILanguageTransformer languageTransformer)
+        public AuthorsService(
+            IAuthorsRepository authorsRepository, 
+            IAuthorFactory authorFactory,
+            IQuotationDomainService quotationDomainService)
         {
             this.authorsRepository = authorsRepository ?? throw new ArgumentNullException(nameof(authorsRepository));
             this.authorFactory = authorFactory ?? throw new ArgumentNullException(nameof(authorFactory));
-            this.languageTransformer = languageTransformer ?? throw new ArgumentNullException(nameof(languageTransformer));
+            this.quotationDomainService = quotationDomainService ?? throw new ArgumentNullException(nameof(quotationDomainService));
         }
         public Guid AddQuotation(Guid authorId, string text, string languageCode)
         {
-            Author author = this.authorsRepository.Get(authorId) ?? throw new ArgumentException("Not found author of given Id", nameof(authorId));
+            Author author = this.authorsRepository.Get(authorId) ?? throw new ArgumentNullException("Not found author of given Id: ", nameof(authorId));
 
-            Language language = this.languageTransformer.Transform(languageCode);
+            Quotation quotation = this.quotationDomainService.Create(author, text, languageCode);
 
-            // Quotation quotation = author.AddQuotation(text, language);
+            this.authorsRepository.Save(author);
 
-            // return quotation.Id;
-
-            throw new NotImplementedException();
+            return quotation.Id;
         }
 
-        public int Create(string name)
+        public Guid Create(string name)
         {
             Author newAuthor = this.authorFactory.Create(name);
 
-            throw new NotImplementedException();
+            if (this.authorsRepository.Get(newAuthor.Name) != null)
+            {
+                throw new ValidationException($"Author with name {newAuthor.Name} already exists", nameof(name));
+            }
+
+            this.authorsRepository.Save(newAuthor);
+
+            return newAuthor.Id;
         }
     }
 }

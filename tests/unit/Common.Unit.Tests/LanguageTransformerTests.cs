@@ -81,7 +81,7 @@ namespace Common.Unit.Tests
                 this.transformer.Transform(code);
             };
 
-            act.Should().ThrowExactly<ArgumentException>();
+            act.Should().ThrowExactly<ValidationException>();
         }
     }
 }

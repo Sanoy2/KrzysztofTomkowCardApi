@@ -6,10 +6,12 @@ namespace Quotations.Persistence
 {
     public interface IAuthorsRepository
     {
-        Author Save(Author author);
-
         IQueryable<Author> Get();
 
+        Author Get(string name);
+
         Author Get(Guid authorId);
+
+        Author Save(Author author);
     }
 }

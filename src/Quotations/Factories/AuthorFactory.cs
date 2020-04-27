@@ -1,5 +1,6 @@
 using System;
 using System.Text.RegularExpressions;
+using Common;
 using Common.TextTransformations;
 using Quotations.Models;
 using Quotations.Persistence;
@@ -19,14 +20,14 @@ namespace Quotations.Factories
         {
             if (string.IsNullOrWhiteSpace(name))
             {
-                throw new ArgumentNullException();
+                throw new ValidationException("Author's name cannot be empty", nameof(name));
             }
 
             bool containsDigitsOnly = !Regex.IsMatch(name, @"\p{L}+");
 
             if (containsDigitsOnly)
             {
-                throw new ArgumentException();
+                throw new ValidationException("Author's name should contain letters only", nameof(name));
             }
 
             string titleCaseName = this.titleCaseTransformer.Transform(name);

@@ -41,7 +41,7 @@ namespace Quotations.Unit.Tests.FactoriesTests
                 this.factory.Create(name);
             };
 
-            act.Should().ThrowExactly<ArgumentNullException>();
+            act.Should().ThrowExactly<ValidationException>();
         }
 
         [Fact]
@@ -54,7 +54,7 @@ namespace Quotations.Unit.Tests.FactoriesTests
                 this.factory.Create(name);
             };
 
-            act.Should().ThrowExactly<ArgumentNullException>();
+            act.Should().ThrowExactly<ValidationException>();
         }
 
         [Theory]
@@ -73,7 +73,7 @@ namespace Quotations.Unit.Tests.FactoriesTests
                 this.factory.Create(name);
             };
 
-            act.Should().ThrowExactly<ArgumentNullException>();
+            act.Should().ThrowExactly<ValidationException>();
         }
 
         [Theory]
@@ -94,7 +94,7 @@ namespace Quotations.Unit.Tests.FactoriesTests
                 this.factory.Create(name);
             };
 
-            act.Should().ThrowExactly<ArgumentException>();
+            act.Should().ThrowExactly<ValidationException>();
         }
 
         [Fact]

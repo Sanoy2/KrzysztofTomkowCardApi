@@ -5,6 +5,6 @@ namespace Quotations.ApplicationServices
 {
     public interface IQuotationsService
     {
-        IQueryable<Quotation> GetRandom(int count);
+        IQueryable<Quotation> GetRandom(string language);
     }
 }

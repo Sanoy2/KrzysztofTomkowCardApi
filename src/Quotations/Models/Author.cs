@@ -18,11 +18,28 @@ namespace Quotations.Models
             this.Name = name;
         }
 
-        public Quotation AddQuotation(Quotation quotation)
+        public Quotation AddQuotation(string content, Language language)
         {
+            Quotation quotation = new Quotation(this.Id, content, language);
+
+            if(this.quotations.Contains(quotation))
+            {
+                return this.quotations.First(n => n.Equals(quotation));
+            }
+
             this.quotations.Add(quotation);
 
             return quotation;
+        }
+
+        public override int GetHashCode()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override bool Equals(object obj)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
