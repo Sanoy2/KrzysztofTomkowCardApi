@@ -13,7 +13,7 @@ namespace Quotations.Unit.Tests.FactoriesTests
     {
         private readonly ITitleCaseTextTransformer titleCaseTransformer;
         private readonly AuthorFactory factory;
-
+        
         public AuthorFactoryTests()
         {
             this.titleCaseTransformer = new TitleCaseTextTransformer();

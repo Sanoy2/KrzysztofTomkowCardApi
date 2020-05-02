@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Common;
 using Quotations.DomainServices;
+using Quotations.Exceptions;
 using Quotations.Factories;
 using Quotations.Models;
 using Quotations.Persistence;
@@ -25,7 +26,7 @@ namespace Quotations.ApplicationServices
         }
         public Guid AddQuotation(Guid authorId, string text, string languageCode)
         {
-            Author author = this.authorsRepository.Get(authorId) ?? throw new ArgumentNullException("Not found author of given Id: ", nameof(authorId));
+            Author author = this.authorsRepository.Get(authorId) ?? throw new AuthorNotFoundException("Not found author of given Id: ");
 
             Quotation quotation = this.quotationDomainService.Create(author, text, languageCode);
 
@@ -40,7 +41,7 @@ namespace Quotations.ApplicationServices
 
             if (this.authorsRepository.Get(newAuthor.Name) != null)
             {
-                throw new ValidationException($"Author with name {newAuthor.Name} already exists", nameof(name));
+                throw new AuthorAlreadyExistsException($"Author with name {newAuthor.Name} already exists", nameof(name));
             }
 
             this.authorsRepository.Save(newAuthor);
