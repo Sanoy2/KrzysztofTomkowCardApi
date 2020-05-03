@@ -8,7 +8,7 @@ namespace Quotations.Models
     public class Author : Entity
     {
         private List<Quotation> quotations = new List<Quotation>();
-        public IEnumerable<Quotation> Quotations { get; }
+        public IEnumerable<Quotation> Quotations { get => this.quotations.ToList(); }
         public string Name { get; }
 
         protected Author() { }
@@ -39,7 +39,41 @@ namespace Quotations.Models
 
         public override bool Equals(object obj)
         {
-            throw new System.NotImplementedException();
+            bool typeMatch = base.EqualsType<Author>(obj);
+
+            if (typeMatch == false)
+            {
+                return false;
+            }
+
+            Author author = obj as Author;
+
+            if(this.Name != author.Name)
+            {
+                return false;
+            }
+
+            if(!this.Quotations.Any() && !author.Quotations.Any())
+            {
+                return true;
+            }
+
+            if( this.Quotations.Count() != author.Quotations.Count())
+            {
+                return false;
+            }
+
+            var thisOrdered = this.Quotations.OrderBy(n => n.Content).ThenBy(n => n.AuthorId).ToList();
+            var otherOrdered = author.Quotations.OrderBy(n => n.Content).ThenBy(n => n.AuthorId).ToList();
+            int i = 0;
+
+            foreach (var thisItem in thisOrdered)
+            {
+                thisItem.Equals(otherOrdered[i]);
+                i++;
+            }
+
+            return this.Quotations.First().Equals(author.Quotations.First());
         }
     }
 }

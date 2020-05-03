@@ -3,7 +3,7 @@ using Common;
 
 namespace Quotations.Models
 {
-    public class Quotation : Entity
+    public class Quotation : Entity, IEquatable<Quotation>
     {
         public Guid AuthorId { get; }
         public Language Language { get; }        
@@ -29,7 +29,7 @@ namespace Quotations.Models
 
             Quotation quotation = obj as Quotation;
 
-            return this.AuthorId == quotation.AuthorId && this.Language == quotation.Language && this.Content == quotation.Content;
+            return this.Language == quotation.Language && this.Content == quotation.Content;
         }
 
         public override int GetHashCode()
@@ -38,12 +38,16 @@ namespace Quotations.Models
             {
                 int hash = 1827809;
 
-                hash = hash * 382883 + this.AuthorId.GetHashCode();
                 hash = hash * 382883 + this.Language.GetHashCode();
                 hash = hash * 382883 + this.Content.GetHashCode();
 
                 return hash;
             }
+        }
+
+        public bool Equals(Quotation other)
+        {
+            return this.Equals(other as object);
         }
     }
 }

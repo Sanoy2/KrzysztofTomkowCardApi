@@ -38,17 +38,6 @@ namespace Quotations.Unit.Tests.ModelsTests
         }
 
         [Fact]
-        public void Equals_OtherAuthor_ShouldBeFalse()
-        {
-            Quotation otherQuotation = new Quotation(Guid.NewGuid(), this.content, this.language);
-            bool areEqual;
-
-            areEqual = this.quotation.Equals(otherQuotation);
-
-            areEqual.Should().BeFalse();
-        }
-
-        [Fact]
         public void Equals_OtherContent_ShouldBeFalse()
         {
             Quotation otherQuotation = new Quotation(this.authorId, "Veni, vidi, vici.", this.language);
