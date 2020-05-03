@@ -10,12 +10,17 @@ namespace Common.Sequence.Implementations
     {
         public bool IsContentTheSame<T>(IEnumerable<T> collection1, IEnumerable<T> collection2)
         {
-            if (collection1 == null || collection2 == null)
+            if(collection1 == null || collection2 == null)
             {
                 throw new ArgumentNullException();
             }
 
-            return collection1.FirstOrDefault().Equals(collection2.FirstOrDefault());
+            if(collection1.Count() != collection2.Count())
+            {
+                return false;
+            }
+
+            return collection1.All(n => collection2.Any(m => n.Equals(m))) && collection2.All(n => collection1.Any(m => n.Equals(m)));
         }
     }
 }
