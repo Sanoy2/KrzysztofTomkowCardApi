@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -31,6 +32,11 @@ namespace Quotations.Models
             this.quotations.Add(quotation);
 
             return quotation;
+        }
+
+        public Quotation GetRandom(Language language)
+        {
+            return this.Quotations.PickRandom(n => n.Language == language);
         }
 
         public override int GetHashCode()
