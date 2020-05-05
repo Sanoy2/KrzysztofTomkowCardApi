@@ -209,5 +209,148 @@ namespace Quotations.Unit.Tests.ModelsTests
 
             areEqual.Should().BeFalse();
         }
+
+
+        [Fact]
+        public void GetHashCode_NoQuotation_ShouldAlwaysProduceTheSameResult()
+        {
+            int hashCode1 = this.author.GetHashCode();
+            int hashCode2 = this.author.GetHashCode();
+            int hashCode3 = this.author.GetHashCode();
+
+            hashCode1.Should().Be(hashCode2).And.Be(hashCode3);
+        }
+
+        [Fact]
+        public void GetHashCode_1Qutation_ShouldAlwaysProduceTheSameResult()
+        {
+            this.author.AddQuotation("To be or not to be?", Language.eng);
+
+            int hashCode1 = this.author.GetHashCode();
+            int hashCode2 = this.author.GetHashCode();
+            int hashCode3 = this.author.GetHashCode();
+
+            hashCode1.Should().Be(hashCode2).And.Be(hashCode3);
+        }
+
+        [Fact]
+        public void GetHashCode_NoQuptation_ObjectWithTheSameFieldValues_ShouldHaveTheSameHashCode()
+        {
+            Author otherAuthor = new Author(this.name);
+
+            int quotationHashCode = this.author.GetHashCode();
+            int otherObjectHashCode;
+
+            otherObjectHashCode = otherAuthor.GetHashCode();
+
+            quotationHashCode.Should().Be(otherObjectHashCode);
+        }
+
+        [Fact]
+        public void GetHashCode_1Quotation_ObjectWithTheSameFieldValues_ShouldHaveTheSameHashCode()
+        {
+            string quotation = "To be or not to be?";
+            Language language = Language.eng;
+
+            Author otherAuthor = new Author(this.name);
+
+            this.author.AddQuotation(quotation, language);
+            otherAuthor.AddQuotation(quotation, language);
+
+            int quotationHashCode = this.author.GetHashCode();
+            int otherObjectHashCode;
+
+            otherObjectHashCode = otherAuthor.GetHashCode();
+
+            quotationHashCode.Should().Be(otherObjectHashCode);
+        }
+
+        [Fact]
+        public void GetHashCode_1Quotation_ObjectDifferentQuotation_ShouldHaveDifferentHashCode()
+        {
+            string quotation1 = "To be or not to be?";
+            string quotation2 = "Better call Saul!";
+            Language language = Language.eng;
+
+            Author otherAuthor = new Author(this.name);
+
+            this.author.AddQuotation(quotation1, language);
+            otherAuthor.AddQuotation(quotation2, language);
+
+            int quotationHashCode = this.author.GetHashCode();
+            int otherObjectHashCode;
+
+            otherObjectHashCode = otherAuthor.GetHashCode();
+
+            quotationHashCode.Should().NotBe(otherObjectHashCode);
+        }
+
+        [Fact]
+        public void GetHashCode_2Quotation_SameOrder_ObjectWithTheSameFieldValues_ShouldHaveTheSameHashCode()
+        {
+            string quotation1 = "To be or not to be?";
+            string quotation2 = "Better call Saul!";
+            Language language = Language.eng;
+
+            Author otherAuthor = new Author(this.name);
+
+            this.author.AddQuotation(quotation1, language);
+            otherAuthor.AddQuotation(quotation1, language);
+
+            this.author.AddQuotation(quotation2, language);
+            otherAuthor.AddQuotation(quotation2, language);
+
+            int quotationHashCode = this.author.GetHashCode();
+            int otherObjectHashCode;
+
+            otherObjectHashCode = otherAuthor.GetHashCode();
+
+            quotationHashCode.Should().Be(otherObjectHashCode);
+        }
+
+        [Fact]
+        public void GetHashCode_2Quotation_DifferentOrder_ObjectWithTheSameFieldValues_ShouldHaveTheSameHashCode()
+        {
+            string quotation1 = "To be or not to be?";
+            string quotation2 = "Better call Saul!";
+            Language language = Language.eng;
+
+            Author otherAuthor = new Author(this.name);
+
+            this.author.AddQuotation(quotation1, language);
+            otherAuthor.AddQuotation(quotation2, language);
+
+            this.author.AddQuotation(quotation2, language);
+            otherAuthor.AddQuotation(quotation1, language);
+
+            int quotationHashCode = this.author.GetHashCode();
+            int otherObjectHashCode;
+
+            otherObjectHashCode = otherAuthor.GetHashCode();
+
+            quotationHashCode.Should().Be(otherObjectHashCode);
+        }
+
+        [Fact]
+        public void GetHashCode_OtherQuotationNumber_ObjectWithTheSameFieldValues_ShouldHaveDifferentHashCode()
+        {
+            string quotation1 = "To be or not to be?";
+            string quotation2 = "Better call Saul!";
+            Language language = Language.eng;
+
+            Author otherAuthor = new Author(this.name);
+
+            this.author.AddQuotation(quotation1, language);
+            otherAuthor.AddQuotation(quotation1, language);
+
+            this.author.AddQuotation(quotation2, language);
+
+            int quotationHashCode = this.author.GetHashCode();
+            int otherObjectHashCode;
+
+            otherObjectHashCode = otherAuthor.GetHashCode();
+
+            quotationHashCode.Should().NotBe(otherObjectHashCode);
+        }
     }
 }

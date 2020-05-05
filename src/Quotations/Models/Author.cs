@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Common;
+using Common.Sequence.Extensions;
 
 namespace Quotations.Models
 {
@@ -34,7 +35,18 @@ namespace Quotations.Models
 
         public override int GetHashCode()
         {
-            throw new System.NotImplementedException();
+            unchecked
+            {
+                int hash = 152897;
+
+                hash = hash * 55252961 + this.Name.GetHashCode();
+                foreach (var quotation in this.Quotations.OrderBy(n => n.Content).ThenBy(n => n.Language))
+                {
+                    hash = hash * 55252961 + quotation.GetHashCode();
+                }
+
+                return hash;
+            }
         }
 
         public override bool Equals(object obj)
@@ -53,27 +65,7 @@ namespace Quotations.Models
                 return false;
             }
 
-            if(!this.Quotations.Any() && !author.Quotations.Any())
-            {
-                return true;
-            }
-
-            if( this.Quotations.Count() != author.Quotations.Count())
-            {
-                return false;
-            }
-
-            var thisOrdered = this.Quotations.OrderBy(n => n.Content).ThenBy(n => n.AuthorId).ToList();
-            var otherOrdered = author.Quotations.OrderBy(n => n.Content).ThenBy(n => n.AuthorId).ToList();
-            int i = 0;
-
-            foreach (var thisItem in thisOrdered)
-            {
-                thisItem.Equals(otherOrdered[i]);
-                i++;
-            }
-
-            return this.Quotations.First().Equals(author.Quotations.First());
+            return this.Quotations.IsContentTheSame(author.Quotations);
         }
     }
 }
