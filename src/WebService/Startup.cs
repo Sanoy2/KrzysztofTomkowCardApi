@@ -19,6 +19,13 @@ using FileAccess.PhysicalFilesAccess;
 using WebService.Configuration;
 using WebService.PhysicalFilesAccess;
 using WebService.PhysicalFilesAccess.Cv;
+using Quotations.Persistence.Interfaces;
+using Quotations.Persistence.Fakes;
+using Quotations.ApplicationServices;
+using Quotations.DomainServices;
+using Quotations.Factories;
+using Common;
+using Common.TextTransformations;
 
 namespace WebService
 {
@@ -41,6 +48,16 @@ namespace WebService
 
             var generalSettings = this.Configuration.GetSettings<GeneralSettings>();
             services.AddSingleton<GeneralSettings>(generalSettings);
+            services.AddSingleton<IAuthorsRepository, FakeAuthorsRepository>();
+
+            services.AddTransient<IQuotationsService, QuotationService>();
+            services.AddTransient<IQuotationDomainService, QuotationDomainService>();
+            services.AddTransient<IAuthorsService, AuthorsService>();
+            services.AddTransient<IAuthorFactory, AuthorFactory>();
+
+            services.AddTransient<ILanguageTransformer, LanguageTransformer>();
+            services.AddTransient<ITitleCaseTextTransformer, TitleCaseTextTransformer>();
+            services.AddTransient<IStatementTransformer, StatementTransformer>();
 
             services.AddTransient<IFileProvider>(n => new PhysicalFileProvider(generalSettings.FileStorageMainDirectory));
 

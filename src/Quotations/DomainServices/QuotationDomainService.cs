@@ -12,7 +12,7 @@ namespace Quotations.DomainServices
         public ILanguageTransformer languageTransformer { get; }
         public ITextTransformer textTransformer { get; }
 
-        public QuotationDomainService(ILanguageTransformer languageTransformer, ITextTransformer textTransformer)
+        public QuotationDomainService(ILanguageTransformer languageTransformer, IStatementTransformer textTransformer)
         {
             this.languageTransformer = languageTransformer ?? throw new ArgumentNullException(nameof(languageTransformer));
             this.textTransformer = textTransformer ?? throw new ArgumentNullException(nameof(textTransformer));

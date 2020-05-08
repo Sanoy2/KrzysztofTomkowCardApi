@@ -1,12 +1,13 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Quotations.Models;
 
-namespace Quotations.Persistence
+namespace Quotations.Persistence.Interfaces
 {
     public interface IAuthorsRepository
     {
-        IQueryable<Author> Get();
+        IEnumerable<Author> Get();
 
         Author Get(string name);
 

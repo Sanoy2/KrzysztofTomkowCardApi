@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FileAccess\FileAccess.csproj" />
+    <ProjectReference Include="..\Quotations\Quotations.csproj" />
   </ItemGroup>
 
   <ItemGroup>
