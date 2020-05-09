@@ -1,4 +1,5 @@
 using Quotations.Models;
+using Quotations.Models.Domain;
 
 namespace Quotations.Factories
 {

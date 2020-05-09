@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Quotations.Models;
+using Quotations.Models.Domain;
 
 namespace Quotations.Persistence.Interfaces
 {

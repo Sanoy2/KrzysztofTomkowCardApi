@@ -1,6 +1,7 @@
 using Common;
 using FluentAssertions;
 using Quotations.Models;
+using Quotations.Models.Domain;
 using Xunit;
 
 namespace Quotations.Unit.Tests.ModelsTests

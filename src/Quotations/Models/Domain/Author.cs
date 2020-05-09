@@ -5,12 +5,12 @@ using System.Linq;
 using Common;
 using Common.Sequence.Extensions;
 
-namespace Quotations.Models
+namespace Quotations.Models.Domain
 {
     public class Author : Entity
     {
         private List<Quotation> quotations = new List<Quotation>();
-        public IEnumerable<Quotation> Quotations { get => this.quotations.ToList(); }
+        public IEnumerable<Quotation> Quotations { get => this.quotations.ToList(); private set => this.quotations = value.ToList(); }
         public string Name { get; }
 
         protected Author() { }

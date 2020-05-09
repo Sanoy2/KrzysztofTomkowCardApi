@@ -1,6 +1,7 @@
 ﻿using Common;
 using Common.Sequence.Extensions;
 using Quotations.Models;
+using Quotations.Models.Domain;
 using Quotations.Models.Dto;
 using Quotations.Persistence.Interfaces;
 using System;

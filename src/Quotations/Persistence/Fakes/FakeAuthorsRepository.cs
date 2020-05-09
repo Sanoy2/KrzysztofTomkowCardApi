@@ -1,5 +1,6 @@
 ﻿using Common;
 using Quotations.Models;
+using Quotations.Models.Domain;
 using Quotations.Persistence.Interfaces;
 using System;
 using System.Collections.Generic;

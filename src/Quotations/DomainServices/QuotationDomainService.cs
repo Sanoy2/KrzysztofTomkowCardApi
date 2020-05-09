@@ -1,6 +1,7 @@
 ﻿using Common;
 using Common.TextTransformations;
 using Quotations.Models;
+using Quotations.Models.Domain;
 using System;
 using System.Collections.Generic;
 using System.Text;

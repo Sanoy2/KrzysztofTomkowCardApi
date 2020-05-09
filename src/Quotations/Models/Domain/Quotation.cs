@@ -1,7 +1,7 @@
 using System;
 using Common;
 
-namespace Quotations.Models
+namespace Quotations.Models.Domain
 {
     public class Quotation : Entity, IEquatable<Quotation>
     {

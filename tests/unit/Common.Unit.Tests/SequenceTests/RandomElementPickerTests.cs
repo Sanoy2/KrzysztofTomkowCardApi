@@ -132,6 +132,11 @@ namespace Common.Unit.Tests.SequenceTests
 
                 return this.Name == instance.Name && this.Rating == instance.Rating;
             }
+
+            public override int GetHashCode()
+            {
+                return HashCode.Combine(Name, Rating);
+            }
         }
 
         #endregion

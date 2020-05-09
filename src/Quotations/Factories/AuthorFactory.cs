@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using Common;
 using Common.TextTransformations;
 using Quotations.Models;
+using Quotations.Models.Domain;
 using Quotations.Persistence;
 
 namespace Quotations.Factories

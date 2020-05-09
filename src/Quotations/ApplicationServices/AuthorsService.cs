@@ -5,6 +5,7 @@ using Quotations.DomainServices;
 using Quotations.Exceptions;
 using Quotations.Factories;
 using Quotations.Models;
+using Quotations.Models.Domain;
 using Quotations.Persistence.Interfaces;
 
 namespace Quotations.ApplicationServices

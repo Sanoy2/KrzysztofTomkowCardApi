@@ -6,6 +6,7 @@ using Quotations.Factories;
 using FluentAssertions;
 using Xunit;
 using Quotations.Models;
+using Quotations.Models.Domain;
 
 namespace Quotations.Unit.Tests.FactoriesTests
 {

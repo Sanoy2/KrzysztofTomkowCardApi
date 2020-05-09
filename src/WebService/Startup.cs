@@ -26,6 +26,9 @@ using Quotations.DomainServices;
 using Quotations.Factories;
 using Common;
 using Common.TextTransformations;
+using Quotations.Persistence.Implementation;
+using AutoMapper;
+using Quotations.Infrastructure;
 
 namespace WebService
 {
@@ -48,7 +51,7 @@ namespace WebService
 
             var generalSettings = this.Configuration.GetSettings<GeneralSettings>();
             services.AddSingleton<GeneralSettings>(generalSettings);
-            services.AddSingleton<IAuthorsRepository, FakeAuthorsRepository>();
+            services.AddSingleton<IAuthorsRepository, DapperAuthorsRepository>();
 
             services.AddTransient<IQuotationsService, QuotationService>();
             services.AddTransient<IQuotationDomainService, QuotationDomainService>();
@@ -60,6 +63,16 @@ namespace WebService
             services.AddTransient<IStatementTransformer, StatementTransformer>();
 
             services.AddTransient<IFileProvider>(n => new PhysicalFileProvider(generalSettings.FileStorageMainDirectory));
+
+            var serviceProvider = services.BuildServiceProvider();
+
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new QuotationsMapperProfile(serviceProvider.GetService<ILanguageTransformer>()));
+            });
+
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
 
             services.AddSwaggerGen(c =>
             {
